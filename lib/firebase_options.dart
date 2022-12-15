@@ -50,6 +50,7 @@ class DefaultFirebaseOptions {
     projectId: 'filmes-sm',
     authDomain: 'filmes-sm.firebaseapp.com',
     storageBucket: 'filmes-sm.appspot.com',
+    measurementId: 'G-1H4604M6M9',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -66,10 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '723752730927',
     projectId: 'filmes-sm',
     storageBucket: 'filmes-sm.appspot.com',
-    androidClientId:
-        '723752730927-rehv7vgmn2nhie7rbc2c6pgpc00ilov9.apps.googleusercontent.com',
-    iosClientId:
-        '723752730927-kom5cno3mlk7m3trf7pmht12o4h1ej2p.apps.googleusercontent.com',
+    androidClientId: '723752730927-rehv7vgmn2nhie7rbc2c6pgpc00ilov9.apps.googleusercontent.com',
+    iosClientId: '723752730927-kom5cno3mlk7m3trf7pmht12o4h1ej2p.apps.googleusercontent.com',
     iosBundleId: 'com.example.filmesSoumei',
   );
 
@@ -79,10 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '723752730927',
     projectId: 'filmes-sm',
     storageBucket: 'filmes-sm.appspot.com',
-    androidClientId:
-        '723752730927-rehv7vgmn2nhie7rbc2c6pgpc00ilov9.apps.googleusercontent.com',
-    iosClientId:
-        '723752730927-kom5cno3mlk7m3trf7pmht12o4h1ej2p.apps.googleusercontent.com',
+    androidClientId: '723752730927-rehv7vgmn2nhie7rbc2c6pgpc00ilov9.apps.googleusercontent.com',
+    iosClientId: '723752730927-kom5cno3mlk7m3trf7pmht12o4h1ej2p.apps.googleusercontent.com',
     iosBundleId: 'com.example.filmesSoumei',
   );
 }
