@@ -80,16 +80,4 @@ class CustomRemoteConfig {
         return Exception('Implementação não encontrada!');
     }
   }
-
-  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
-    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.ensureInitialized();
-    await remoteConfig.fetchAndActivate();
-    var hello = remoteConfig.getString("apitoken");
-    if (kDebugMode) {
-      print("hello: |$hello|");
-    }
-
-    return remoteConfig;
-  }
 }
