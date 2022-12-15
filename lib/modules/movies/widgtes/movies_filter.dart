@@ -17,10 +17,9 @@ class MoviesFilter extends GetView<MoviesController> {
             return Row(
               children: controller.genres
                   .map((g) => FilterTag(
-                        model: g,
-                        selected: false,
-                        onPressed: () {},
-                      ))
+                      model: g,
+                      onPressed: () => controller.filterMoviesByGenre(g),
+                      selected: controller.genreSelected.value?.id == g.id))
                   .toList(),
             );
           })),

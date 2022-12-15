@@ -13,11 +13,13 @@ class MoviesController extends GetxController with MessagesMixin {
   final _message = Rxn<MessageModel>();
   final genres = <GenresModel>[].obs;
 
+  final genreSelected = Rxn<GenresModel>();
+
   final popularMovies = <MovieModel>[].obs;
   final topRatedMovies = <MovieModel>[].obs;
 
-  final _popularMoviesOriginal = <MovieModel>[];
-  final _topRatedMoviesOriginal = <MovieModel>[];
+  var _popularMoviesOriginal = <MovieModel>[];
+  var _topRatedMoviesOriginal = <MovieModel>[];
 
   MoviesController(
       {required GenresServices genresServices,
@@ -40,15 +42,61 @@ class MoviesController extends GetxController with MessagesMixin {
 
       final popularMoviesData = await _moviesServices.getPopularMovies();
       popularMovies.assignAll(popularMoviesData);
+      _popularMoviesOriginal = popularMoviesData;
 
       final topRatedMoviesData = await _moviesServices.getTopRated();
       topRatedMovies.assignAll(topRatedMoviesData);
+      _topRatedMoviesOriginal = topRatedMoviesData;
     } catch (e, s) {
       if (kDebugMode) {
         print(e);
         print(s);
       }
       _message(MessageModel.error('Erro', 'Erro carregar dados da pagina'));
+    }
+  }
+
+  void filterByName(String title) {
+    if (title.isNotEmpty) {
+      var newpopularMovies = _popularMoviesOriginal.where((movie) {
+        return movie.title.toLowerCase().contains(title.toLowerCase());
+      });
+
+      var newtopRatedMovies = _topRatedMoviesOriginal.where((movie) {
+        return movie.title.toLowerCase().contains(title.toLowerCase());
+      });
+
+      popularMovies.assignAll(newpopularMovies);
+      topRatedMovies.assignAll(newtopRatedMovies);
+    } else {
+      popularMovies.assignAll(_popularMoviesOriginal);
+      topRatedMovies.assignAll(_topRatedMoviesOriginal);
+    }
+  }
+
+  void filterMoviesByGenre(GenresModel? genremovel) {
+    var genreFilter = genremovel;
+
+    if (genreFilter?.id == genreSelected.value?.id) {
+      genreFilter = null;
+    }
+
+    genreSelected.value = genreFilter;
+
+    if (genreFilter != null) {
+      var newpopularMovies = _popularMoviesOriginal.where((movie) {
+        return movie.genres.contains(genreFilter?.id);
+      });
+
+      var newtopRatedMovies = _topRatedMoviesOriginal.where((movie) {
+        return movie.genres.contains(genreFilter?.id);
+      });
+
+      popularMovies.assignAll(newpopularMovies);
+      topRatedMovies.assignAll(newtopRatedMovies);
+    } else {
+      popularMovies.assignAll(_popularMoviesOriginal);
+      topRatedMovies.assignAll(_topRatedMoviesOriginal);
     }
   }
 }
