@@ -1,4 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class CustomRemoteConfig {
@@ -16,9 +17,12 @@ class CustomRemoteConfig {
           fetchTimeout: const Duration(seconds: 10),
           minimumFetchInterval: const Duration(hours: 1)),
     );
+
+    await _firebaseRemoteConfig.ensureInitialized();
+    await _firebaseRemoteConfig.fetchAndActivate();
   }
 
-  Future<void> forceTetch() async {
+  Future<void> forceFetch() async {
     try {
       await _firebaseRemoteConfig.setConfigSettings(
         RemoteConfigSettings(
@@ -38,22 +42,54 @@ class CustomRemoteConfig {
     switch (defaultValue.runtimeType) {
       case String:
         var value = _firebaseRemoteConfig.getString(key);
+
+        if (kDebugMode) {
+          print('FirebaseRemote: $value');
+        }
+
         return value != '' ? value : defaultValue;
 
       case int:
         var value = _firebaseRemoteConfig.getInt(key);
+
+        if (kDebugMode) {
+          print('FirebaseRemote: $value');
+        }
+
         return value != 0 ? value : defaultValue;
 
       case bool:
         var value = _firebaseRemoteConfig.getBool(key);
+
+        if (kDebugMode) {
+          print('FirebaseRemote: $value');
+        }
+
         return value != false ? value : defaultValue;
 
       case double:
         var value = _firebaseRemoteConfig.getDouble(key);
+
+        if (kDebugMode) {
+          print('FirebaseRemote: $value');
+        }
+
         return value != 0.0 ? value : defaultValue;
 
       default:
         return Exception('Implementação não encontrada!');
     }
+  }
+
+  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.ensureInitialized();
+    await remoteConfig.fetchAndActivate();
+    var hello = remoteConfig.getString("apitoken");
+    if (kDebugMode) {
+      print("hello: |$hello|");
+    }
+
+    return remoteConfig;
   }
 }

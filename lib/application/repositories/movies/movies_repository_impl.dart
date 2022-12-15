@@ -1,4 +1,5 @@
 import 'package:filmes_soumei/application/rest_client/rest_client.dart';
+import 'package:filmes_soumei/application/ui/custom_remote_config.dart';
 import 'package:filmes_soumei/models/movie_model.dart';
 import 'package:flutter/foundation.dart';
 
@@ -15,7 +16,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
     final result = await _restClient.get<List<MovieModel>>(
       '/movie/popular',
       query: {
-        'api_key': '75bb68c9bbbb953c59aa39648d6e0f10',
+        'api_key': CustomRemoteConfig()
+            .getValueOrDefault(key: 'apitoken', defaultValue: ''),
         'language': 'pt-BR',
         'page': '1'
       },
@@ -46,7 +48,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
     final result = await _restClient.get<List<MovieModel>>(
       '/movie/top_rated',
       query: {
-        'api_key': '75bb68c9bbbb953c59aa39648d6e0f10',
+        'api_key': CustomRemoteConfig()
+            .getValueOrDefault(key: 'apitoken', defaultValue: ''),
         'language': 'pt-BR',
         'page': '1'
       },

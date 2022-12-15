@@ -1,4 +1,5 @@
 import 'package:filmes_soumei/application/rest_client/rest_client.dart';
+import 'package:filmes_soumei/application/ui/custom_remote_config.dart';
 import 'package:filmes_soumei/models/genres_model.dart';
 import 'package:flutter/foundation.dart';
 
@@ -12,11 +13,12 @@ class GenresRepositoryImpl implements GenresRepository {
 
   @override
   Future<List<GenresModel>> getGenres() async {
-    final result = await _restClient.get<List<GenresModel>>('/genre/movie/list',
-        query: {
-          'api_key': '75bb68c9bbbb953c59aa39648d6e0f10',
-          'language': 'pt-BR'
-        }, decoder: (data) {
+    final result =
+        await _restClient.get<List<GenresModel>>('/genre/movie/list', query: {
+      'api_key': CustomRemoteConfig()
+          .getValueOrDefault(key: 'apitoken', defaultValue: ''),
+      'language': 'pt-BR'
+    }, decoder: (data) {
       final resultData = data['genres'];
 
       if (resultData != null) {
