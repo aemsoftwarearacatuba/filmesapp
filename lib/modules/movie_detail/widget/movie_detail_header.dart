@@ -1,9 +1,7 @@
 import 'package:filmes_soumei/models/movies_detail_model.dart';
-import 'package:filmes_soumei/modules/movie_detail/movie_detail_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class MovieDetailHeader extends GetView<MovieDetailController> {
+class MovieDetailHeader extends StatelessWidget {
   final MovieDetailModel? movie;
 
   const MovieDetailHeader({

@@ -6,14 +6,14 @@ class MovieModel {
   final String releaseDate;
   final String posterPath;
   final List<int> genres;
-  final bool favorites;
+  final bool favorite;
   MovieModel({
     required this.id,
     required this.title,
     required this.releaseDate,
     required this.posterPath,
     required this.genres,
-    required this.favorites,
+    required this.favorite,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,7 +23,7 @@ class MovieModel {
       'release_date': releaseDate,
       'poster_path': posterPath,
       'genre_ids': genres,
-      'favorites': favorites,
+      'favorite': favorite,
     };
   }
 
@@ -34,7 +34,7 @@ class MovieModel {
       releaseDate: map['release_date'] ?? '',
       posterPath: map['poster_path'] ?? '',
       genres: List<int>.from(map['genre_ids']),
-      favorites: map['favorites'] ?? false,
+      favorite: map['favorite'] ?? false,
     );
   }
 

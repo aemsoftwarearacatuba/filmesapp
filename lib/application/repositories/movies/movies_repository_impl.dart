@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filmes_soumei/application/rest_client/rest_client.dart';
 import 'package:filmes_soumei/application/ui/custom_remote_config.dart';
 import 'package:filmes_soumei/models/movie_model.dart';
@@ -99,5 +100,44 @@ class MoviesRepositoryImpl implements MoviesRepository {
       throw Exception('Erro ao buscar detalhes do filme');
     }
     return result.body;
+  }
+
+  @override
+  Future<void> addOrRemoveFavorite(String userId, MovieModel movie) async {
+    try {
+      var favoriteCollection = FirebaseFirestore.instance
+          .collection('favorities')
+          .doc(userId)
+          .collection('movies');
+
+      if (movie.favorite) {
+        favoriteCollection.add(movie.toMap());
+      } else {
+        var favoriteData = await favoriteCollection
+            .where('id', isEqualTo: movie.id)
+            .limit(1)
+            .get();
+        favoriteData.docs.first.reference.delete();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Erro ao favoritar um filme');
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> getFavoritiesMovies(String userId) async {
+    var favoritesMovies = await FirebaseFirestore.instance
+        .collection('favorities')
+        .doc(userId)
+        .collection('movies')
+        .get();
+    final listFavorites = <MovieModel>[];
+    for (var movie in favoritesMovies.docs) {
+      listFavorites.add(MovieModel.fromMap(movie.data()));
+    }
+    return listFavorites;
   }
 }
