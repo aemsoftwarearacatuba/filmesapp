@@ -4,6 +4,7 @@ import 'package:filmes_soumei/application/ui/filmes_app_ui_config.dart';
 import 'package:filmes_soumei/firebase_options.dart';
 import 'package:filmes_soumei/modules/home/home_module.dart';
 import 'package:filmes_soumei/modules/login/login_module.dart';
+import 'package:filmes_soumei/modules/movie_detail/movie_detail_module.dart';
 import 'package:filmes_soumei/modules/splash/splash_module.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
       getPages: [
         ...SplashModule().routers,
         ...LoginModule().routers,
-        ...HomeModule().routers
+        ...HomeModule().routers,
+        ...MovieDetailModule().routers
       ],
     );
   }

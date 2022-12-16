@@ -1,5 +1,6 @@
 import 'package:filmes_soumei/application/repositories/movies/movies_repository.dart';
 import 'package:filmes_soumei/models/movie_model.dart';
+import 'package:filmes_soumei/models/movies_detail_model.dart';
 
 import './movies_services.dart';
 
@@ -14,4 +15,8 @@ class MoviesServicesImpl implements MoviesServices {
 
   @override
   Future<List<MovieModel>> getTopRated() => _moviesRepository.getTopRated();
+
+  @override
+  Future<MoviesDetailModel?> getDetail(int id) =>
+      _moviesRepository.getDetail(id);
 }

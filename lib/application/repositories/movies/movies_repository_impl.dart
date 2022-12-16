@@ -1,6 +1,7 @@
 import 'package:filmes_soumei/application/rest_client/rest_client.dart';
 import 'package:filmes_soumei/application/ui/custom_remote_config.dart';
 import 'package:filmes_soumei/models/movie_model.dart';
+import 'package:filmes_soumei/models/movies_detail_model.dart';
 import 'package:flutter/foundation.dart';
 
 import './movies_repository.dart';
@@ -73,5 +74,30 @@ class MoviesRepositoryImpl implements MoviesRepository {
     }
 
     return result.body ?? <MovieModel>[];
+  }
+
+  @override
+  Future<MoviesDetailModel?> getDetail(int id) async {
+    final result = await _restClient.get<MoviesDetailModel?>(
+      '/movies/$id',
+      query: {
+        'api_key': CustomRemoteConfig()
+            .getValueOrDefault(key: 'apitoken', defaultValue: ''),
+        'language': 'pt-BR',
+        'append_to_response': 'images,credits',
+        'include_image_language': 'en,pt-br',
+      },
+      decoder: (data) {
+        return MoviesDetailModel.fromMap(data);
+      },
+    );
+
+    if (result.hasError) {
+      if (kDebugMode) {
+        print(result.statusText);
+      }
+      throw Exception('Erro ao buscar detalhes do filme');
+    }
+    return result.body;
   }
 }
