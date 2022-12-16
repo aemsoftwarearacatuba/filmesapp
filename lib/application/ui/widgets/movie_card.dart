@@ -1,14 +1,18 @@
 import 'package:filmes_soumei/application/ui/filmes_app_icons_icons.dart';
+import 'package:filmes_soumei/application/ui/filmes_extensions.dart';
 import 'package:filmes_soumei/models/movie_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class MovieCard extends StatelessWidget {
   final dateFormat = DateFormat('dd/MM/y');
   final MovieModel movie;
+  final VoidCallback favoriteCallback;
 
-  MovieCard({Key? key, required this.movie}) : super(key: key);
+  MovieCard({Key? key, required this.movie, required this.favoriteCallback})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +40,10 @@ class MovieCard extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       clipBehavior: Clip.antiAlias,
-                      child: Image.network(
-                        'https://image.tmdb.org/t/p/w500/${movie.posterPath}',
+                      child: FadeInImage.memoryNetwork(
+                        placeholder: kTransparentImage,
+                        image:
+                            'https://image.tmdb.org/t/p/w500/${movie.posterPath}',
                         height: 184,
                         width: 148,
                         fit: BoxFit.cover,
@@ -79,11 +85,13 @@ class MovieCard extends StatelessWidget {
                   height: 30,
                   child: IconButton(
                     iconSize: 13,
-                    icon: const Icon(
-                      FilmesAppIcons.heart,
-                      color: Colors.grey,
+                    icon: Icon(
+                      movie.favorite
+                          ? FilmesAppIcons.heart
+                          : FilmesAppIcons.heartEmpty,
+                      color: movie.favorite ? context.themeRed : Colors.grey,
                     ),
-                    onPressed: () {},
+                    onPressed: favoriteCallback,
                   ),
                 ),
               ),

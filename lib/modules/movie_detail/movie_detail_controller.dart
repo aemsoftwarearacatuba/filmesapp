@@ -11,9 +11,9 @@ class MovieDetailController extends GetxController
   var message = Rxn<MessageModel>();
   var movie = Rxn<MovieDetailModel>();
 
-  final MoviesServices _moviesServices;
+  final MoviesService _moviesServices;
 
-  MovieDetailController({required MoviesServices moviesServices})
+  MovieDetailController({required MoviesService moviesServices})
       : _moviesServices = moviesServices;
 
   @override
@@ -42,7 +42,8 @@ class MovieDetailController extends GetxController
         print(s);
         loading(false);
 
-        message(MessageModel.error('Erro', 'Erro ao buscar detalhes do filme'));
+        message(MessageModel.error(
+            title: 'Erro', message: 'Erro ao buscar detalhes do filme'));
       }
     }
   }

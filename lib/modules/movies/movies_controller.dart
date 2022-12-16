@@ -1,3 +1,4 @@
+import 'package:filmes_soumei/application/auth/auth_service.dart';
 import 'package:filmes_soumei/application/services/genres/genres_services.dart';
 import 'package:filmes_soumei/application/services/movies/movies_services.dart';
 import 'package:filmes_soumei/application/ui/messages/messages_mixin.dart';
@@ -8,7 +9,8 @@ import 'package:get/get.dart';
 
 class MoviesController extends GetxController with MessagesMixin {
   final GenresServices _genresServices;
-  final MoviesServices _moviesServices;
+  final MoviesService _moviesServices;
+  final AuthService _authService;
 
   final _message = Rxn<MessageModel>();
   final genres = <GenreModel>[].obs;
@@ -21,11 +23,13 @@ class MoviesController extends GetxController with MessagesMixin {
   var _popularMoviesOriginal = <MovieModel>[];
   var _topRatedMoviesOriginal = <MovieModel>[];
 
-  MoviesController(
-      {required GenresServices genresServices,
-      required MoviesServices moviesServices})
-      : _genresServices = genresServices,
-        _moviesServices = moviesServices;
+  MoviesController({
+    required GenresServices genresServices,
+    required MoviesService moviesServices,
+    required AuthService authService,
+  })  : _genresServices = genresServices,
+        _moviesServices = moviesServices,
+        _authService = authService;
 
   @override
   void onInit() {
@@ -37,14 +41,45 @@ class MoviesController extends GetxController with MessagesMixin {
   Future<void> onReady() async {
     super.onReady();
     try {
-      final genrespData = await _genresServices.getGenres();
-      genres.assignAll(genrespData);
+      final genresData = await _genresServices.getGenres();
+      genres.assignAll(genresData);
 
-      final popularMoviesData = await _moviesServices.getPopularMovies();
+      await getMovies();
+    } catch (e, s) {
+      if (kDebugMode) {
+        print(e);
+        print(s);
+      }
+      _message(MessageModel.error(
+          title: 'Erro', message: 'Erro ao carregar dados da pagina'));
+    }
+  }
+
+  Future<void> getMovies() async {
+    try {
+      var popularMoviesData = await _moviesServices.getPopularMovies();
+      var topRatedMoviesData = await _moviesServices.getTopRated();
+      final favorites = await getFavorites();
+
+      popularMoviesData = popularMoviesData.map((m) {
+        if (favorites.containsKey(m.id)) {
+          return m.copyWith(favorite: true);
+        } else {
+          return m.copyWith(favorite: false);
+        }
+      }).toList();
+
+      topRatedMoviesData = topRatedMoviesData.map((m) {
+        if (favorites.containsKey(m.id)) {
+          return m.copyWith(favorite: true);
+        } else {
+          return m.copyWith(favorite: false);
+        }
+      }).toList();
+
       popularMovies.assignAll(popularMoviesData);
       _popularMoviesOriginal = popularMoviesData;
 
-      final topRatedMoviesData = await _moviesServices.getTopRated();
       topRatedMovies.assignAll(topRatedMoviesData);
       _topRatedMoviesOriginal = topRatedMoviesData;
     } catch (e, s) {
@@ -52,7 +87,9 @@ class MoviesController extends GetxController with MessagesMixin {
         print(e);
         print(s);
       }
-      _message(MessageModel.error('Erro', 'Erro carregar dados da pagina'));
+
+      _message(MessageModel.error(
+          title: 'Erro', message: 'Erro ao carregar dados da pagina'));
     }
   }
 
@@ -98,5 +135,25 @@ class MoviesController extends GetxController with MessagesMixin {
       popularMovies.assignAll(_popularMoviesOriginal);
       topRatedMovies.assignAll(_topRatedMoviesOriginal);
     }
+  }
+
+  Future<void> favoriteMovie(MovieModel movie) async {
+    final user = _authService.user;
+    if (user != null) {
+      var newMovie = movie.copyWith(favorite: !movie.favorite);
+      await _moviesServices.addOrRemoveFavorite(user.uid, newMovie);
+      await getMovies();
+    }
+  }
+
+  Future<Map<int, MovieModel>> getFavorites() async {
+    var user = _authService.user;
+    if (user != null) {
+      final favorites = await _moviesServices.getFavoritiesMovies(user.uid);
+      return <int, MovieModel>{
+        for (var fav in favorites) fav.id: fav,
+      };
+    }
+    return {};
   }
 }

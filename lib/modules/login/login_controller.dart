@@ -25,8 +25,8 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
       await _loginService.login();
       loading(false);
       message(MessageModel.info(
-        'Sucesso',
-        'Login realizado com sucesso!',
+        title: 'Sucesso',
+        message: 'Login realizado com sucesso!',
       ));
     } catch (e, s) {
       if (kDebugMode) {
@@ -36,8 +36,8 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
 
       loading(false);
       message(MessageModel.error(
-        'Erro',
-        'Erro ao realizado o login!',
+        title: 'Erro',
+        message: 'Erro ao realizado o login!',
       ));
     }
   }

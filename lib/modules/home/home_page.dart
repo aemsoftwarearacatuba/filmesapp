@@ -1,5 +1,6 @@
 import 'package:filmes_soumei/application/ui/filmes_app_icons_icons.dart';
 import 'package:filmes_soumei/application/ui/filmes_extensions.dart';
+import 'package:filmes_soumei/modules/favorites/favorites_bindings.dart';
 import 'package:filmes_soumei/modules/favorites/favorites_page.dart';
 import 'package:filmes_soumei/modules/home/home_controller.dart';
 import 'package:filmes_soumei/modules/movies/movies_bindings.dart';
@@ -42,6 +43,7 @@ class HomePage extends GetView<HomeController> {
             return GetPageRoute(
               settings: settings,
               page: () => const FavoritesPage(),
+              binding: FavoritesBindings(),
             );
           }
           return null;

@@ -22,9 +22,11 @@ class MessageModel {
 
   MessageModel(this.title, this.message, this.type);
 
-  MessageModel.error(this.title, this.message) : type = MessageType.error;
+  MessageModel.error({required this.title, required this.message})
+      : type = MessageType.error;
 
-  MessageModel.info(this.title, this.message) : type = MessageType.info;
+  MessageModel.info({required this.title, required this.message})
+      : type = MessageType.info;
 }
 
 enum MessageType { error, info }

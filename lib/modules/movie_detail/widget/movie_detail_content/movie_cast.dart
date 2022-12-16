@@ -1,6 +1,7 @@
 import 'package:filmes_soumei/application/ui/filmes_extensions.dart';
 import 'package:filmes_soumei/models/cast_model.dart';
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class MovieCast extends StatelessWidget {
   final CastModel? cast;
@@ -16,19 +17,14 @@ class MovieCast extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              cast?.image != null && cast?.image != ''
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: cast?.image != null && cast?.image != ''
                   ? 'https://image.tmdb.org/t/p/w200${cast?.image}'
                   : 'https://ciclesradar.com.br/images/sem_foto.png',
               width: 85,
               height: 85,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                debugPrint("object : ${error.toString()}");
-                debugPrint("stacktrace : ${stackTrace.toString()}");
-
-                return const SizedBox.shrink();
-              },
             ),
           ),
           Text(
