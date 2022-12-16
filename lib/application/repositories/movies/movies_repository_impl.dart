@@ -77,9 +77,9 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<MoviesDetailModel?> getDetail(int id) async {
-    final result = await _restClient.get<MoviesDetailModel?>(
-      '/movies/$id',
+  Future<MovieDetailModel?> getDetail(int id) async {
+    final result = await _restClient.get<MovieDetailModel?>(
+      '/movie/$id',
       query: {
         'api_key': CustomRemoteConfig()
             .getValueOrDefault(key: 'apitoken', defaultValue: ''),
@@ -88,7 +88,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
         'include_image_language': 'en,pt-br',
       },
       decoder: (data) {
-        return MoviesDetailModel.fromMap(data);
+        return MovieDetailModel.fromMap(data);
       },
     );
 

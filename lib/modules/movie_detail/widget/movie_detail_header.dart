@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MovieDetailHeader extends GetView<MovieDetailController> {
-  final MoviesDetailModel? movie;
+  final MovieDetailModel? movie;
 
   const MovieDetailHeader({
     Key? key,

@@ -1,19 +1,20 @@
 import 'dart:convert';
 
 import 'package:filmes_soumei/models/cast_model.dart';
-import 'package:filmes_soumei/models/genres_model.dart';
+import 'package:filmes_soumei/models/genre_model.dart';
 
-class MoviesDetailModel {
+class MovieDetailModel {
   final String title;
   final double stars;
-  final List<GenresModel> genres;
+  final List<GenreModel> genres;
   final List<String> urlImages;
   final DateTime releaseDate;
   final String overview;
   final List<String> productionCompanies;
   final String originalLanguage;
   final List<CastModel> cast;
-  MoviesDetailModel({
+
+  MovieDetailModel({
     required this.title,
     required this.stars,
     required this.genres,
@@ -39,27 +40,27 @@ class MoviesDetailModel {
     };
   }
 
-  factory MoviesDetailModel.fromMap(Map<String, dynamic> map) {
+  factory MovieDetailModel.fromMap(Map<String, dynamic> map) {
     var urlImagesPosters = map['images']['posters'];
     var urlImages = urlImagesPosters
             ?.map<String>(
                 (i) => 'https://image.tmdb.org/t/p/w200${i['file_path']}')
             .toList() ??
-        [];
+        const [];
 
-    return MoviesDetailModel(
+    return MovieDetailModel(
       title: map['title'] ?? '',
-      stars: map['vote_average']?.toDouble() ?? 0.0,
-      genres: List<GenresModel>.from(
-          map['genres']?.map((x) => GenresModel.fromMap(x))),
-      urlImages: List<String>.from(map['urlImages']),
-      releaseDate: DateTime.parse(map['release_Date']),
+      stars: map['vote_average'] ?? 0.0,
+      genres: List<GenreModel>.from(
+          map['genres']?.map((x) => GenreModel.fromMap(x)) ?? const []),
+      urlImages: urlImages,
+      releaseDate: DateTime.parse(map['release_date']),
       overview: map['overview'] ?? '',
       productionCompanies:
-          List<dynamic>.from(map['production_Companies'] ?? const [])
+          List<dynamic>.from(map['production_companies'] ?? const [])
               .map<String>((p) => p['name'])
               .toList(),
-      originalLanguage: map['original_Language'] ?? '',
+      originalLanguage: map['original_language'] ?? '',
       cast: List<CastModel>.from(
           map['credits']['cast']?.map((x) => CastModel.fromMap(x)) ?? const []),
     );
@@ -67,6 +68,6 @@ class MoviesDetailModel {
 
   String toJson() => json.encode(toMap());
 
-  factory MoviesDetailModel.fromJson(String source) =>
-      MoviesDetailModel.fromMap(json.decode(source));
+  factory MovieDetailModel.fromJson(String source) =>
+      MovieDetailModel.fromMap(json.decode(source));
 }

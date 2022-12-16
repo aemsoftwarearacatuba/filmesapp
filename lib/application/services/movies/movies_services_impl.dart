@@ -17,6 +17,6 @@ class MoviesServicesImpl implements MoviesServices {
   Future<List<MovieModel>> getTopRated() => _moviesRepository.getTopRated();
 
   @override
-  Future<MoviesDetailModel?> getDetail(int id) =>
+  Future<MovieDetailModel?> getDetail(int id) =>
       _moviesRepository.getDetail(id);
 }

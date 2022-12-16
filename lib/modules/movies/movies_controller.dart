@@ -1,7 +1,7 @@
 import 'package:filmes_soumei/application/services/genres/genres_services.dart';
 import 'package:filmes_soumei/application/services/movies/movies_services.dart';
 import 'package:filmes_soumei/application/ui/messages/messages_mixin.dart';
-import 'package:filmes_soumei/models/genres_model.dart';
+import 'package:filmes_soumei/models/genre_model.dart';
 import 'package:filmes_soumei/models/movie_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -11,9 +11,9 @@ class MoviesController extends GetxController with MessagesMixin {
   final MoviesServices _moviesServices;
 
   final _message = Rxn<MessageModel>();
-  final genres = <GenresModel>[].obs;
+  final genres = <GenreModel>[].obs;
 
-  final genreSelected = Rxn<GenresModel>();
+  final genreSelected = Rxn<GenreModel>();
 
   final popularMovies = <MovieModel>[].obs;
   final topRatedMovies = <MovieModel>[].obs;
@@ -74,7 +74,7 @@ class MoviesController extends GetxController with MessagesMixin {
     }
   }
 
-  void filterMoviesByGenre(GenresModel? genremovel) {
+  void filterMoviesByGenre(GenreModel? genremovel) {
     var genreFilter = genremovel;
 
     if (genreFilter?.id == genreSelected.value?.id) {

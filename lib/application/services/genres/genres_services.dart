@@ -1,5 +1,5 @@
-import 'package:filmes_soumei/models/genres_model.dart';
+import 'package:filmes_soumei/models/genre_model.dart';
 
 abstract class GenresServices {
-  Future<List<GenresModel>> getGenres();
+  Future<List<GenreModel>> getGenres();
 }

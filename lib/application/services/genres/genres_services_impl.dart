@@ -1,5 +1,5 @@
 import 'package:filmes_soumei/application/repositories/genres/genres_repository.dart';
-import 'package:filmes_soumei/models/genres_model.dart';
+import 'package:filmes_soumei/models/genre_model.dart';
 
 import './genres_services.dart';
 
@@ -10,5 +10,5 @@ class GenresServicesImpl implements GenresServices {
       : _genresRepository = genresRepository;
 
   @override
-  Future<List<GenresModel>> getGenres() => _genresRepository.getGenres();
+  Future<List<GenreModel>> getGenres() => _genresRepository.getGenres();
 }

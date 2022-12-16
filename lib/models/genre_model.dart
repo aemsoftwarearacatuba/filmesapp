@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-class GenresModel {
+class GenreModel {
   final int id;
   final String name;
 
-  GenresModel({
+  GenreModel({
     required this.id,
     required this.name,
   });
@@ -16,8 +16,8 @@ class GenresModel {
     };
   }
 
-  factory GenresModel.fromMap(Map<String, dynamic> map) {
-    return GenresModel(
+  factory GenreModel.fromMap(Map<String, dynamic> map) {
+    return GenreModel(
       id: map['id']?.toInt() ?? 0,
       name: map['name'] ?? '',
     );
@@ -25,6 +25,6 @@ class GenresModel {
 
   String toJson() => json.encode(toMap());
 
-  factory GenresModel.fromJson(String source) =>
-      GenresModel.fromMap(json.decode(source));
+  factory GenreModel.fromJson(String source) =>
+      GenreModel.fromMap(json.decode(source));
 }

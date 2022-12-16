@@ -4,5 +4,5 @@ import 'package:filmes_soumei/models/movies_detail_model.dart';
 abstract class MoviesServices {
   Future<List<MovieModel>> getPopularMovies();
   Future<List<MovieModel>> getTopRated();
-  Future<MoviesDetailModel?> getDetail(int id);
+  Future<MovieDetailModel?> getDetail(int id);
 }

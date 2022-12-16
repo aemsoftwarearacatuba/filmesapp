@@ -1,9 +1,9 @@
 import 'package:filmes_soumei/application/ui/filmes_extensions.dart';
-import 'package:filmes_soumei/models/genres_model.dart';
+import 'package:filmes_soumei/models/genre_model.dart';
 import 'package:flutter/material.dart';
 
 class FilterTag extends StatelessWidget {
-  final GenresModel model;
+  final GenreModel model;
   final bool selected;
   final VoidCallback onPressed;
 

@@ -1,6 +1,6 @@
 import 'package:filmes_soumei/application/rest_client/rest_client.dart';
 import 'package:filmes_soumei/application/ui/custom_remote_config.dart';
-import 'package:filmes_soumei/models/genres_model.dart';
+import 'package:filmes_soumei/models/genre_model.dart';
 import 'package:flutter/foundation.dart';
 
 import './genres_repository.dart';
@@ -12,9 +12,9 @@ class GenresRepositoryImpl implements GenresRepository {
       : _restClient = restClient;
 
   @override
-  Future<List<GenresModel>> getGenres() async {
+  Future<List<GenreModel>> getGenres() async {
     final result =
-        await _restClient.get<List<GenresModel>>('/genre/movie/list', query: {
+        await _restClient.get<List<GenreModel>>('/genre/movie/list', query: {
       'api_key': CustomRemoteConfig()
           .getValueOrDefault(key: 'apitoken', defaultValue: ''),
       'language': 'pt-BR'
@@ -23,10 +23,10 @@ class GenresRepositoryImpl implements GenresRepository {
 
       if (resultData != null) {
         return resultData
-            .map<GenresModel>((g) => GenresModel.fromMap(g))
+            .map<GenreModel>((g) => GenreModel.fromMap(g))
             .toList();
       }
-      return <GenresModel>[];
+      return <GenreModel>[];
     });
 
     if (result.hasError) {
@@ -36,6 +36,6 @@ class GenresRepositoryImpl implements GenresRepository {
       throw Exception('Erro ao buscar Genres');
     }
 
-    return result.body ?? <GenresModel>[];
+    return result.body ?? <GenreModel>[];
   }
 }

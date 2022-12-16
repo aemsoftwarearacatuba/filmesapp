@@ -9,7 +9,7 @@ class MovieDetailController extends GetxController
     with LoaderMixin, MessagesMixin {
   var loading = false.obs;
   var message = Rxn<MessageModel>();
-  var movie = Rxn<MoviesDetailModel>();
+  var movie = Rxn<MovieDetailModel>();
 
   final MoviesServices _moviesServices;
 
