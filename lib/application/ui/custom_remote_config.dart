@@ -1,5 +1,4 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class CustomRemoteConfig {
@@ -30,6 +29,7 @@ class CustomRemoteConfig {
             minimumFetchInterval: Duration.zero),
       );
 
+      await _firebaseRemoteConfig.ensureInitialized();
       await _firebaseRemoteConfig.fetchAndActivate();
     } on PlatformException catch (exception) {
       throw (exception.toString());
@@ -43,36 +43,20 @@ class CustomRemoteConfig {
       case String:
         var value = _firebaseRemoteConfig.getString(key);
 
-        if (kDebugMode) {
-          print('FirebaseRemote: $value');
-        }
-
         return value != '' ? value : defaultValue;
 
       case int:
         var value = _firebaseRemoteConfig.getInt(key);
-
-        if (kDebugMode) {
-          print('FirebaseRemote: $value');
-        }
 
         return value != 0 ? value : defaultValue;
 
       case bool:
         var value = _firebaseRemoteConfig.getBool(key);
 
-        if (kDebugMode) {
-          print('FirebaseRemote: $value');
-        }
-
         return value != false ? value : defaultValue;
 
       case double:
         var value = _firebaseRemoteConfig.getDouble(key);
-
-        if (kDebugMode) {
-          print('FirebaseRemote: $value');
-        }
 
         return value != 0.0 ? value : defaultValue;
 
