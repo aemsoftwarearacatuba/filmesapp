@@ -1,5 +1,6 @@
 import 'package:filmes_soumei/application/bindings/application_bindings.dart';
 import 'package:filmes_soumei/application/ui/custom_remote_config.dart';
+import 'package:filmes_soumei/application/ui/custom_scrollbehavior.dart';
 import 'package:filmes_soumei/application/ui/filmes_app_ui_config.dart';
 import 'package:filmes_soumei/firebase_options.dart';
 import 'package:filmes_soumei/modules/home/home_module.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
       initialBinding: ApplicationBindings(),
       title: FilmesAppUiConfig.title,
       theme: FilmesAppUiConfig.theme,
+      scrollBehavior: CustomScrollbehavior(),
       getPages: [
         ...SplashModule().routers,
         ...LoginModule().routers,

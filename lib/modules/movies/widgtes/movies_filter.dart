@@ -11,9 +11,10 @@ class MoviesFilter extends GetView<MoviesController> {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          child: Obx(() {
+        physics: const AlwaysScrollableScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        child: Obx(
+          () {
             return Row(
               children: controller.genres
                   .map((g) => FilterTag(
@@ -22,7 +23,9 @@ class MoviesFilter extends GetView<MoviesController> {
                       selected: controller.genreSelected.value?.id == g.id))
                   .toList(),
             );
-          })),
+          },
+        ),
+      ),
     );
   }
 }
